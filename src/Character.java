@@ -45,4 +45,24 @@ public class Character {
     public int getHealth() {
         return health;
     }
+
+    public String getNavn() {
+        return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
 }

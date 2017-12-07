@@ -16,10 +16,10 @@ public class Creature {
         Creature creature = new Creature("", 0,0,0);
         switch (svar) {
             case 0:
-                creature = new Creature("Snake", 1,2,10);
+                creature = new Creature("Slange", 1,2,10);
                 break;
             case 1:
-                creature = new Creature("Boar",5,8,40);
+                creature = new Creature("Vildsvin",5,8,40);
                 break;
 
         }

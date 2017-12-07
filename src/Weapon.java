@@ -33,4 +33,10 @@ public class Weapon {
     public void setMax(int max) {
         this.max = max;
     }
+
+
+    @Override
+    public String toString() {
+        return getName() + " (" + ((getMax()+getMin())/2)+ ") " + getMin() + " - " + getMax();
+    }
 }
