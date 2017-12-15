@@ -1,7 +1,52 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
+
 public class Character {
     private String navn;
     private int health;
     private int armor;
+    ArrayList<Weapon> egedeVåben = new ArrayList<>();
+
+
+    public void gemWeaponList() {
+        try {
+            PrintWriter outputStream = new PrintWriter(new File("saves/weapons"));
+            for (int i = 0; i < egedeVåben.size(); i++) {
+                outputStream.println(
+                  egedeVåben.get(i).getName() + ";" +
+                  egedeVåben.get(i).getMin() + ";" +
+                  egedeVåben.get(i).getMax() + ";"
+                );
+            }
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void laesWeaponList() {
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("saves/weapons")).useDelimiter(";").useLocale(Locale.US);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (scanner.hasNextInt()) {
+            String navn = scanner.next();
+            int min = scanner.nextInt();
+            int max = scanner.nextInt();
+
+            Weapon våben = new Weapon(navn,min,max);
+            egedeVåben.add(våben);
+            scanner.nextLine();
+        }
+    }
 
     public static Weapon equipWeapon(int svar) {
         Weapon weapon = new Weapon("",0,0);

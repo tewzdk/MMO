@@ -7,16 +7,18 @@ public class GameRunner {
         Creature creature = Creature.creature(0);
         Combat combat = new Combat();
         Character character = new Character();
-        Weapon weapon = character.equipWeapon(0);
+        character.gemWeaponList();
+        int wp = 0;
+        Weapon weapon = character.egedeVåben.get(0);
+        //Weapon weapon = character.equipWeapon(wp);
         character.setHealth(100);
 
         while (programRunning) {
-            programRunning = mainMenu(main, creature, combat, character, weapon);
+            programRunning = mainMenu(main, creature, combat, character, weapon, wp);
         }
     }
 
-    public boolean mainMenu(Main main, Creature creature, Combat combat, Character character, Weapon weapon) {
-        
+    public boolean mainMenu(Main main, Creature creature, Combat combat, Character character, Weapon weapon, int wp) {
         System.out.println("Velkommen til spillet");
         System.out.println("1. Prøv Spil");
         System.out.println("2. Se din karakter");
@@ -28,7 +30,7 @@ public class GameRunner {
                 System.out.println("[Spillet afsluttes]");
                 return false;
             case 1:
-                    Spil(main, creature, combat, character, weapon);
+                    Spil(main, creature, combat, character, weapon, wp);
 
                 break;
             case 2:
@@ -51,7 +53,7 @@ public class GameRunner {
         return true;
     }
 
-    public void Spil(Main main, Creature creature, Combat combat, Character character, Weapon weapon) {
+    public int Spil(Main main, Creature creature, Combat combat, Character character, Weapon weapon, int wp) {
         boolean aktiv = true;
         boolean igen = true;
 
@@ -85,7 +87,7 @@ public class GameRunner {
 
             if (creatureHp < 1) {
                 System.out.println(creature.getNavn() + " døde");
-                weapon = character.equipWeapon(1);
+                wp++;
                 creature = Creature.creature(1);
                 aktiv = false;
                 igen = false;
@@ -117,6 +119,7 @@ public class GameRunner {
             }
         }
         System.out.println("");
+        return wp;
     }
 
     public void Character(Main main, Creature creature, Combat combat, Character character, Weapon weapon) {
