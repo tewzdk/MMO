@@ -19,9 +19,20 @@ public class Creature {
                 creature = new Creature("Slange", 1,2,10);
                 break;
             case 1:
+                creature = new Creature("Flagermus",0,10,10);
+                break;
+            case 2:
+                creature = new Creature("Edderkop",2,4,8);
+                break;
+            case 3:
                 creature = new Creature("Vildsvin",5,8,40);
                 break;
-
+            case 4:
+                creature = new Creature("Zombie", 6,10,30);
+                break;
+            default:
+                creature = new Creature("Michael", 1,1,2);
+                break;
         }
         return creature;
     }

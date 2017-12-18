@@ -4,6 +4,7 @@ public class Weapon {
     private int min;
     private int max;
 
+
     public Weapon(String name, int min, int max) {
         this.name = name;
         this.min = min;
@@ -37,6 +38,8 @@ public class Weapon {
 
     @Override
     public String toString() {
-        return getName() + " (" + ((getMax()+getMin())/2)+ ") " + getMin() + " - " + getMax();
+        double mingns = getMin();
+        double maxgns = getMax();
+        return getName() + " (" + ((maxgns+mingns)/2)+ ") " + getMin() + " - " + getMax();
     }
 }

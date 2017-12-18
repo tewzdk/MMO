@@ -9,18 +9,46 @@ public class Character {
     private String navn;
     private int health;
     private int armor;
-    ArrayList<Weapon> egedeVåben = new ArrayList<>();
+    private int equippedWeapon;
+    private int gold;
 
+    ArrayList<Integer> egedeVåben = new ArrayList<>();
+
+    public void gemHealth() {
+        try {
+            PrintWriter outputStream = new PrintWriter(new File("saves/health"));
+                outputStream.println(
+                  health + ";" + armor + ";" + equippedWeapon + ";" + gold + ";" + navn + ";"
+                );
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void laesHealth() {
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("saves/health")).useDelimiter(";").useLocale(Locale.US);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (scanner.hasNextInt()) {
+            health = scanner.nextInt();
+            armor = scanner.nextInt();
+            equippedWeapon = scanner.nextInt();
+            scanner.nextLine();
+        }
+    }
 
     public void gemWeaponList() {
         try {
             PrintWriter outputStream = new PrintWriter(new File("saves/weapons"));
             for (int i = 0; i < egedeVåben.size(); i++) {
                 outputStream.println(
-                  egedeVåben.get(i).getName() + ";" +
-                  egedeVåben.get(i).getMin() + ";" +
-                  egedeVåben.get(i).getMax() + ";"
-                );
+                        egedeVåben.get(i).intValue()+";");
             }
             outputStream.close();
         } catch (FileNotFoundException e) {
@@ -38,17 +66,14 @@ public class Character {
             e.printStackTrace();
         }
         while (scanner.hasNextInt()) {
-            String navn = scanner.next();
-            int min = scanner.nextInt();
-            int max = scanner.nextInt();
+            int våben = scanner.nextInt();
 
-            Weapon våben = new Weapon(navn,min,max);
             egedeVåben.add(våben);
             scanner.nextLine();
         }
     }
 
-    public static Weapon equipWeapon(int svar) {
+    public static Weapon weapons(int svar) {
         Weapon weapon = new Weapon("",0,0);
         switch (svar) {
             case 0:
@@ -109,5 +134,21 @@ public class Character {
 
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+
+    public int getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public void setEquippedWeapon(int equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 }
