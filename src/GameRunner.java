@@ -5,28 +5,22 @@ public class GameRunner {
 
     public void start() {
         Character character = new Character();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Hvad er dit navn?");
-        String navn = scanner.next();
-        character.setNavn(navn);
         character.laesWeaponList();
         character.laesHealth();
         boolean programRunning = true;
         Main main = new Main();
-        Dungeon dungeon = new Dungeon();
-        Creature creature = Creature.creature(dungeon.getCreature());
+        Creature creature = Creature.creature(character.getCreature());
         Weapon weapon = character.weapons(character.getEquippedWeapon());
-        Combat combat = new Combat();
 
         while (programRunning) {
-            programRunning = mainMenu(main, creature, combat, character, weapon, dungeon);
+            programRunning = mainMenu(main, creature, character, weapon);
         }
     }
 
-    public boolean mainMenu(Main main, Creature creature, Combat combat, Character character, Weapon weapon, Dungeon dungeon) {
+    public boolean mainMenu(Main main, Creature creature, Character character, Weapon weapon) {
         weapon = character.weapons(character.getEquippedWeapon());
-        creature = Creature.creature(dungeon.getCreature());
-        System.out.println("Velkommen til spillet");
+        creature = Creature.creature(character.getCreature());
+        System.out.println("Velkommen til spillet " + character.getNavn() + "!");
         System.out.println("1. Prøv Spil");
         System.out.println("2. Se din karakter");
         System.out.println("0. Afslut spillet");
@@ -37,11 +31,11 @@ public class GameRunner {
                 System.out.println("[Spillet afsluttes]");
                 return false;
             case 1:
-                Spil(main, creature, combat, character, weapon, dungeon);
+                Spil(main, creature, character, weapon);
 
                 break;
             case 2:
-                Character(main, creature, combat, character, weapon);
+                Character(main, creature, character, weapon);
                 break;
             case 3:
                 aktiv = true;
@@ -60,7 +54,7 @@ public class GameRunner {
         return true;
     }
 
-    public void Spil(Main main, Creature creature, Combat combat, Character character, Weapon weapon, Dungeon dungeon) {
+    public void Spil(Main main, Creature creature, Character character, Weapon weapon) {
 
         boolean aktiv = true;
         boolean igen = true;
@@ -95,8 +89,10 @@ public class GameRunner {
             case 5:
                 System.out.println("En " + creature.getNavn().toLowerCase() + " dukkede op bag et skur");
                 break;
+            default:
+                System.out.println("En " + creature.getNavn().toLowerCase() + " dukkede op bag et skur");
+                break;
         }
-
 
         System.out.println("Vil du kæmpe mod den?\n1. Ja\n2. Nej");
         int kamp = main.in();
@@ -106,7 +102,7 @@ public class GameRunner {
             aktiv = false;
         }
         while (aktiv) {
-            int charDamage = combat.Angreb(pMin, pMax);
+            int charDamage = character.Angreb(pMin, pMax);
 
             System.out.println("Du svinger din " + weapon.getName().toLowerCase() + " for " + charDamage + " skade.");
             creatureHp = creatureHp - charDamage;
@@ -114,27 +110,26 @@ public class GameRunner {
 
 
             if (creatureHp < 1) {
+                character.setLoot((character.getLoot() + 1));
 
                 System.out.println("Du besejrede " + creature.getNavn() +
-                        " og fandt en " + character.weapons(dungeon.getLoot()) +
+                        " og fandt en " + character.weapons(character.getLoot()) +
                         " inde i " + creature.getNavn().toLowerCase() + "\nDu lagde den i din taske.\n");
 
-                character.egedeVåben.add(dungeon.getLoot());
+                character.setCreature((character.getCreature() + 1));
+                character.egedeVåben.add(character.getLoot());
                 character.gemWeaponList();
-                dungeon.setLoot((dungeon.getLoot() + 1));
-                dungeon.setCreature((dungeon.getCreature() + 1));
                 aktiv = false;
                 igen = false;
             } else {
                 igen = true;
             }
 
-
             while (igen) {
-                int creaDamage = combat.Angreb(cMin, cMax);
+                int creaDamage = character.Angreb(cMin, cMax);
                 int characterhp = character.getHealth();
-
-                System.out.println(creature.getNavn() + " angriber dig for " + creaDamage + " skade.\n");
+                System.out.print("");
+                System.out.println(creature.getNavn() + " angriber dig for " + creaDamage + " skade.");
                 characterhp = characterhp - creaDamage;
                 System.out.println(character.getNavn() + " har " + characterhp + " liv tilbage\n");
                 character.setHealth(characterhp);
@@ -156,16 +151,17 @@ public class GameRunner {
         System.out.println("");
     }
 
-    public void Character(Main main, Creature creature, Combat combat, Character character, Weapon weapon) {
+    public void Character(Main main, Creature creature, Character character, Weapon weapon) {
         boolean fedt = true;
         while (fedt) {
-        System.out.println("Du bærer: " + weapon + " og har " + character.getHealth() + " liv.\n");
-        System.out.println("Hvad vil du se?");
-        System.out.println("1. Se dine våben");
-        System.out.println("2. Skift Våben");
-        System.out.println("3. Sælg våben");
-        System.out.println("4. Køb liv");
-        System.out.println("0. Tilbage");
+            System.out.println("Hvad vil du se?");
+            System.out.println("1. Se Kriger");
+            System.out.println("2. Se dine våben");
+            System.out.println("3. Skift Våben");
+            System.out.println("4. Sælg våben");
+            System.out.println("5. Køb liv");
+            System.out.println("6. Skift navn");
+            System.out.println("0. Tilbage");
         boolean skiftVaaben = true;
         int svar = main.in();
 
@@ -175,17 +171,30 @@ public class GameRunner {
                 fedt = false;
                 break;
             case 1:
-                for (int i = 0; i < character.egedeVåben.size(); i++) {
-                    System.out.println(character.weapons(character.egedeVåben.get(i)));
-                }
+                System.out.println("------------------------------");
+                System.out.println("Navn: " + character.getNavn());
+                System.out.println("Liv: " + character.getHealth());
+                System.out.println("Våben: " + weapon);
+                System.out.println("------------------------------");
+                System.out.print("\nTryk ENTER for at gå videre ");
+                String videre = main.inputString();
                 System.out.println();
                 break;
             case 2:
+                for (int i = 0; i < character.egedeVåben.size(); i++) {
+                    System.out.println(character.weapons(character.egedeVåben.get(i)));
+                }
+                System.out.print("\nTryk ENTER for at gå videre ");
+                videre = main.inputString();
+                System.out.println();
+                break;
+            case 3:
                 while (skiftVaaben) {
                     System.out.println("Vælg nyt våben");
                     int tal = -1;
                     for (int i = 0; i < character.egedeVåben.size(); i++) {
-                        System.out.print("[" + (tal + 1) + ". " + character.weapons(character.egedeVåben.get(i)) + "] ");
+                        tal = tal + 1;
+                        System.out.print("[" + tal + ". " + character.weapons(character.egedeVåben.get(i)).getName() + "] ");
                     }
                     System.out.println("");
                     int spg = main.in();
@@ -199,7 +208,7 @@ public class GameRunner {
                     }
                 }
                 break;
-            case 3:
+            case 4:
                 System.out.println("Hvad vil du sælge?");
 
                 int spg = main.in();
@@ -213,7 +222,7 @@ public class GameRunner {
                 }
 
                 break;
-            case 4:
+            case 5:
                 System.out.println("Vil du hele dit liv ?");
                 System.out.println("1. Ja");
                 System.out.println("2. Nej");
@@ -239,6 +248,14 @@ public class GameRunner {
                     }
                 }
 
+                break;
+            case 6:
+                System.out.println("Hvad er dit navn?");
+                Scanner scanner = new Scanner(System.in);
+                String navn = scanner.next();
+                character.setNavn(navn);
+                character.gemHealth();
+                fedt = false;
                 break;
         }
     }

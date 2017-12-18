@@ -13,7 +13,7 @@ public class Creature {
     }
 
     public static Creature creature(int svar) {
-        Creature creature = new Creature("", 0,0,0);
+        Creature creature;// = new Creature("", 0,0,0);
         switch (svar) {
             case 0:
                 creature = new Creature("Slange", 1,2,10);

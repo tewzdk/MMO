@@ -3,22 +3,45 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Character {
+
+    //CHARACTER
     private String navn;
     private int health;
     private int armor;
     private int equippedWeapon;
     private int gold;
-
     ArrayList<Integer> egedeVåben = new ArrayList<>();
+
+    //Dungeons
+    private int loot;
+    private int creature;
+
+
+    public int Angreb(int min, int max) {
+        boolean minbool = true;
+        int hit;
+        Random random = new Random();
+
+        hit = random.nextInt(max)+1;
+        while (minbool) {
+            if (hit < min) {
+                hit = random.nextInt(max)+1;
+            } else if (hit == min || hit > min){
+                minbool = false;
+            }
+        }
+        return hit;
+    }
 
     public void gemHealth() {
         try {
             PrintWriter outputStream = new PrintWriter(new File("saves/health"));
                 outputStream.println(
-                  health + ";" + armor + ";" + equippedWeapon + ";" + gold + ";" + navn + ";"
+                  health + ";" + armor + ";" + equippedWeapon + ";" + gold + ";" + navn + ";" + loot + ";" + creature + ";"
                 );
             outputStream.close();
         } catch (FileNotFoundException e) {
@@ -39,6 +62,10 @@ public class Character {
             health = scanner.nextInt();
             armor = scanner.nextInt();
             equippedWeapon = scanner.nextInt();
+            gold = scanner.nextInt();
+            navn = scanner.next();
+            loot = scanner.nextInt();
+            creature = scanner.nextInt();
             scanner.nextLine();
         }
     }
@@ -150,5 +177,21 @@ public class Character {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public int getLoot() {
+        return loot;
+    }
+
+    public void setLoot(int loot) {
+        this.loot = loot;
+    }
+
+    public int getCreature() {
+        return creature;
+    }
+
+    public void setCreature(int creature) {
+        this.creature = creature;
     }
 }

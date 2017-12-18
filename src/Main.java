@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class Main {
     private Scanner in = new Scanner(System.in).useDelimiter("\\n");
 
-
-
     public static void main(String[] args) {
 
 
@@ -28,5 +26,11 @@ public class Main {
 
         return svar;
     }
+
+    public String inputString(){
+        String string = in.next();
+        return string;
+    }
+
 
 }
