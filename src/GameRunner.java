@@ -12,6 +12,8 @@ public class GameRunner {
         Creature creature = Creature.creature(character.getCreature());
         Weapon weapon = character.weapons(character.getEquippedWeapon());
 
+
+
         while (programRunning) {
             programRunning = mainMenu(main, creature, character, weapon);
         }
@@ -69,7 +71,7 @@ public class GameRunner {
 
         Random scenarie = new Random();
 
-        int randomscenario = scenarie.nextInt(5);
+        int randomscenario = scenarie.nextInt(6);
         switch (randomscenario) {
             case 0:
                 System.out.println("En " + creature.getNavn().toLowerCase() + " dukkede op bag et træ");
@@ -117,7 +119,7 @@ public class GameRunner {
                         " inde i " + creature.getNavn().toLowerCase() + "\nDu lagde den i din taske.\n");
 
                 character.setCreature((character.getCreature() + 1));
-                character.egedeVåben.add(character.getLoot());
+                character.ejedevåben.add(character.getLoot());
                 character.gemWeaponList();
                 aktiv = false;
                 igen = false;
@@ -181,8 +183,8 @@ public class GameRunner {
                 System.out.println();
                 break;
             case 2:
-                for (int i = 0; i < character.egedeVåben.size(); i++) {
-                    System.out.println(character.weapons(character.egedeVåben.get(i)));
+                for (int i = 0; i < character.ejedevåben.size(); i++) {
+                    System.out.println(character.weapons(character.ejedevåben.get(i)));
                 }
                 System.out.print("\nTryk ENTER for at gå videre ");
                 videre = main.inputString();
@@ -192,14 +194,14 @@ public class GameRunner {
                 while (skiftVaaben) {
                     System.out.println("Vælg nyt våben");
                     int tal = -1;
-                    for (int i = 0; i < character.egedeVåben.size(); i++) {
+                    for (int i = 0; i < character.ejedevåben.size(); i++) {
                         tal = tal + 1;
-                        System.out.print("[" + tal + ". " + character.weapons(character.egedeVåben.get(i)).getName() + "] ");
+                        System.out.print("[" + tal + ". " + character.weapons(character.ejedevåben.get(i)).getName() + "] ");
                     }
                     System.out.println("");
                     int spg = main.in();
-                    for (int i = 0; i < character.egedeVåben.size(); i++) {
-                        if (spg == character.egedeVåben.get(i)) {
+                    for (int i = 0; i < character.ejedevåben.size(); i++) {
+                        if (spg == character.ejedevåben.get(i)) {
                             character.setEquippedWeapon(spg);
                             character.gemHealth();
                             skiftVaaben = false;
@@ -212,11 +214,11 @@ public class GameRunner {
                 System.out.println("Hvad vil du sælge?");
 
                 int spg = main.in();
-                for (int i = 0; i < character.egedeVåben.size(); i++) {
-                    if (spg == character.egedeVåben.get(i)) {
+                for (int i = 0; i < character.ejedevåben.size(); i++) {
+                    if (spg == character.ejedevåben.get(i)) {
                         character.setGold(character.getGold() + 10);
                         System.out.println(character.getGold());
-                        character.egedeVåben.remove(i);
+                        character.ejedevåben.remove(i);
                         System.out.println("Du solgte en" + character.weapons(i) + " for 10 guld.");
                     }
                 }

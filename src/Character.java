@@ -14,7 +14,7 @@ public class Character {
     private int armor;
     private int equippedWeapon;
     private int gold;
-    ArrayList<Integer> egedeVåben = new ArrayList<>();
+    ArrayList<Integer> ejedevåben = new ArrayList<>();
 
     //Dungeons
     private int loot;
@@ -111,9 +111,9 @@ public class Character {
     public void gemWeaponList() {
         try {
             PrintWriter outputStream = new PrintWriter(new File("saves/weapons"));
-            for (int i = 0; i < egedeVåben.size(); i++) {
+            for (int i = 0; i < ejedevåben.size(); i++) {
                 outputStream.println(
-                        egedeVåben.get(i).intValue()+";");
+                        ejedevåben.get(i).intValue()+";");
             }
             outputStream.close();
         } catch (FileNotFoundException e) {
@@ -132,7 +132,7 @@ public class Character {
         while (scanner.hasNextInt()) {
             int våben = scanner.nextInt();
 
-            egedeVåben.add(våben);
+            ejedevåben.add(våben);
             scanner.nextLine();
         }
     }

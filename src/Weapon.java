@@ -3,7 +3,7 @@ public class Weapon {
     private String name;
     private int min;
     private int max;
-
+//HEJ
     public Weapon(String name, int min, int max) {
         this.name = name;
         this.min = min;
